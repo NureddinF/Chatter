@@ -1,0 +1,104 @@
+Purpose
+	This site is meant to act as a social media page, like twitter. It allows users to view their page with their recents "chats", and their main page which shows the chats of the people they follow. Also, it allows the user to search to find chats with the keyword (not functional yet). And the user could also view the pages of other users that they follow/follow them and view their chats.
+
+Site Design
+	For my site I used the Bootstrap framework to help me in the design. It allowed me to add coloring and spacing of the elments.
+
+Description
+	Main page:
+		User can view the chats of the people they follow, see how many chats they hav, view how many followers they have, and view how many people they follow. They can also utilize the search bar to search for specific chats. And, obviously create a chat.
+
+	Chats (My Chat) page:
+		This page is ment to allow the user to view their own chats that they have posted, also shows the date and time of each chat.
+
+	Chats (other users):
+		This page is similar to the page above, but it allows the user to view the cahts posted by a user they follow or a user that is following them.
+
+	Search page:
+		This page will show any chats that matches any keywords that is searched in the search bar, it will also show the users that posted it along with the date and time.
+
+	Follow page:
+		This page lists the names of the people that the user follows, the user can click on each name to view their page further.
+
+	Following page:
+		Similar to above but it shows the people following the user.
+
+Changes from A2
+
+	The major change is the pop-up window for the chats button. It uses the modal window functionality that bootstrap offers. I needed assistance to create this so I have referenced the youtube and bootstrap tutorials below to get the window to work. I had to include query ignorer for the pop-up window to work. 
+
+
+Database Description
+
+	There are 3 database tables created. One for Users, Posts and Following. The Users manages the user name name and the id, the first entry is the main user. Posts saves the posts with the an id and the user id, also stores a date timestamp that is updated every time a new post is added. Finally there is the following database that contains the ids of the users pointing to the id of who they are following.
+
+	All entries in the database were hard coded in through phpMyAdmin, no queries are created to populate theses tables.
+
+
+Search Implementation
+
+	Search as daily simple, it has a form once the enter button is pressed will redirect to the search page. Using POST the search variable is stored to and used in a query to search the post table. The query checks if the post is 'like' the search word and gets the name of the user by comparing the id back to the user table.
+
+Database changes
+	
+	Please read README.txt for more info
+
+Updated database
+	
+	The login table has been added, which contains a username, password and userid field. THe userID field is NOT a foriegn key (explained in readm.txt). The Users table userID is a foriegn key to the login table.
+
+Login/Sign up implementation
+
+	Login and sign use a mix of features for their implementattion. They use url strings to distinguish beetween which page to show and what action to commit. They also use javascript for the validation of the password and username fields (validate.js). Also, to check for a user already existing I used url string again to return to the page and print the appropriate error message.
+
+Creating User Profile Implementation
+	
+	The profile page captures the first and last name, and the profile of the user. These are passed on to registration.php to insert these elements into the users table, witht he use of prepared statements. The registration page then redirects to the appropriate page
+
+Adding to following
+
+	The findPeople page is used when a user first signs up to allow them to add a person to their following list. It uses checkbox list that once checkd is added to an array. When the user clicks next it calls on db_addFollowing.php, which goes through the array and finds the user that was selected and updates the following table. Again, since we are dealing with user inputs prepare statements are used.
+
+Logging out
+	
+	A button that calls logout.php, which just destoys the session at hand and redirects the users to the main landing page, chatter.php.
+
+Password Rules
+	
+	The passwords are validated by the validate script, which uses regex to test if password has a captial, a number, and the specified symbols ($, _). Also, it is hashed when inputted into the database. When a user tries to login password is verified agains the password that is recieved back from the database query.
+
+Live page
+	
+	With the live pages, I had to add a javascript/jquery function that send the data through post, to the post.php page to get added to the database. With the help of an online tutorial it guided me to how I can use js/jquery to send the data using ajax to the post.php page (see refrences for the link). This is was done because when the form is submitted it forces a refresh to the page. Then I have a function called loadDoc() that handles the live update of the posts to the page. This works by calling mainPosts.php (Ajax landing page), which queries all the posts that are meant to be displayed and sent back to loadDoc() function. This is then displayed to the div with id='content'. Both the function to send the data and the loadDoc() function are in the script.js doc.
+
+References
+	
+	Getbootstrap.com. (2015). Getting started · Bootstrap. [online] Available at: http://getbootstrap.com/getting-started/#support.
+
+	L. (2014, April 18). PHP tutorial: Retrieving values from a URL's query string | lynda.com. Retrieved from https://www.youtube.com/watch?v=sLnwdjQQlIw 
+
+	
+	PHP: Load content dynamically based on the link clicked on the previous page? (n.d.). Retrieved from https://stackoverflow.com/questions/9114371/php-load-content-dynamically-based-on-the-link-clicked-on-the-previous-page 
+
+	
+	Bootstrap Navigation Bar. (n.d.). Retrieved from https://www.w3schools.com/bootstrap/bootstrap_navbar.asp 
+
+	T. (2017, January 02). Bootstrap Beginner Crash Course. Retrieved from https://www.youtube.com/watch?v=5GcQtLDGXy8 
+
+	
+	Reading Files Into a String or Array. (n.d.). Retrieved from https://teamtreehouse.com/library/reading-files-into-a-string-or-array
+
+	
+	Read a file backwards line by line using fseek. (n.d.). Retrieved from https://stackoverflow.com/questions/3234580/read-a-file-backwards-line-by-line-using-fseek
+
+	(n.d.). Retrieved from https://www.w3schools.com/bootstrap4/tryit.asp?filename=trybs_navbar_brand&stacked=h
+
+	
+	Bootstrap Modal Plugin. (n.d.). Retrieved from https://www.w3schools.com/bootstrap/bootstrap_modal.asp
+
+	A. (2018, March 08). Bootstrap 4 Alerts & Modals | BOOTSTRAP 4 TUTORIAL. Retrieved from https://www.youtube.com/watch?v=N3RK2dZpQXs
+
+	PHP: Get Values of Multiple Checked Checkboxes. (2018, March 22). Retrieved from https://www.formget.com/php-checkbox/
+
+
+	Codecourse. (2013, February 25). JQuery Tutorials: Submitting a Form with AJAX. Retrieved November 29, 2018, from https://www.youtube.com/watch?v=GrycH6F-ksY 
